@@ -7,6 +7,7 @@
 /* Addison-Wesley Longman, 2003 */
 /*-lGL -lGLU -lglut*/
 /*yo fer*/
+/*<3 fer y kenny <3 */
 #include <stdlib.h>
 #include <GL/glut.h>
 GLfloat planes[]= {-1.0, 0.0, 1.0, 0.0};

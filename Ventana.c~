@@ -6,6 +6,7 @@
 /* A Top-Down Approach with OpenGL, Third Edition */
 /* Addison-Wesley Longman, 2003 */
 /*-lGL -lGLU -lglut*/
+/*yo fer*/
 #include <stdlib.h>
 #include <GL/glut.h>
 GLfloat planes[]= {-1.0, 0.0, 1.0, 0.0};
