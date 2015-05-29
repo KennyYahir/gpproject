@@ -6,12 +6,15 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #define For(x,a,b) for(int x=(a); x<(b); x++)
-#define MOD 14
+#define N 9
+#define M 7
+#define MODX 17*N
+#define MODY 9*N
 using namespace std;
 
 int arr_randsx[20], arr_randsy[20], arr_randsz[20];
 
-float mat[20][5];
+float mat[20][5], obj_width = 0.4;
 
 GLfloat x,y,z, paso, dtx, dtz, incremento,ejex,ejey,ejez, xx, yy;
 int ang;
@@ -42,10 +45,11 @@ void idleevent()
 
 void guardaPos(float x, float y, int i)
 {
-  mat[i][0] = x-.1;
-  mat[i][1] = x+.1;
-  mat[i][2] = y-.1;
-  mat[i][3] = y+.1;  
+  mat[i][0] = x - obj_width/2;
+
+  mat[i][1] = x + obj_width/2;
+  mat[i][2] = y - obj_width/2;
+  mat[i][3] = y + obj_width/2;  
 }
 
 
@@ -241,41 +245,46 @@ void displayevent(void)
         glPopMatrix();
 
 //objetivos
-        int inix = -4, iniy = -1, iniz = -1;
+        int inix = -6, iniy = -3, iniz = -1;
         
         For(t,0,20)
         {
           if(!mat[t][4])
             mat[t][4] = iniz;
-          guardaPos(inix + arr_randsx[t],iniy + arr_randsy[t],t);
-          glColor3f(0, 0, 0);
+          guardaPos(inix + arr_randsx[t]/(float)N,iniy + arr_randsy[t]/(float)N,t);
+
+          //glColor3f(0, 0, 0);
+          
           glColor3f(0.6, 0, 0.6);
+
           glPushMatrix();
-          glTranslatef(inix + arr_randsx[t],iniy + arr_randsy[t], mat[t][4]);          
+          glTranslatef((float)inix + (float)arr_randsx[t]/(float)N, (float)iniy + (float)arr_randsy[t]/(float)N, mat[t][4]);          
           glRotated(0,0,0,0);
-          glScalef(.2,.2,.2);
+          glScalef(obj_width, obj_width, obj_width);
           glutSolidCube(1);
           glPopMatrix();
         }
 
 
        //rayo       
-       glPushMatrix ();
-       glColor3f(1,1,0);
-       glTranslatef(2.1,ejey+.1,ejez + 12);
+       glPushMatrix();
+       glColor3f(0.5,0.5,0.5);
+       glTranslatef(2.1,ejey +.1, ejez + 12);
        glRotatef((GLfloat)ang,0,1,0);
        glScalef(0.05,0.05,0.4);
        glutSolidCube(1);
-       glPopMatrix ();
+       glPopMatrix();
 
        glPushMatrix ();
-       glColor3f(1,1,0);
+       //glColor3f(1,1,0);
+       glColor3f(0,0,0);
        glTranslatef(xx,yy,-0.9);       
-       glScalef(0.04,0.04,0.04);
+       //glScalef(0.04,0.04,0.04);
+       glScalef(0.1,0.1,0.1);
        glutSolidCube(1);
        glPopMatrix ();
 
-        glutSwapBuffers();
+      glutSwapBuffers();
 
 }
 
@@ -344,11 +353,16 @@ void reshapeevent(GLsizei width, GLsizei height)
 
 int main(int argc, char** argv)
 {
-   srand(time(NULL));
+   //srand(2);
+  srand(time(NULL));
 
-   For(i,0,20)arr_randsx[i] = rand()%MOD , arr_randsy[i] = rand()%(MOD-6);
+   For(i,0,20){arr_randsx[i] = rand()%MODX , arr_randsy[i] = rand()%(MODY);
+   printf("%.2f %.2f\n", arr_randsx[i]/(float)N, arr_randsy[i]/(float)N);}
+
+
    glutInit( &argc, argv );
-   srand (time(NULL));
+   //srand (time(NULL));
+
    glutInitWindowSize( 1100, 700 );
    glutInitWindowPosition( 100, 100 );
    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
