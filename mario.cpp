@@ -335,23 +335,25 @@ void displayevent(void)
         glutSolidCube(1);
         glPopMatrix();
 
+//Pistola:
+
  glPushMatrix ();
  glColor3f(.6,.6,.6);
- glTranslatef(ejex+2,ejey+.1,ejez);
+ glTranslatef(ejex+2,ejey+.1,ejez + 12);
  glScalef(0.1,0.1,0.4);
  glutSolidCube(1);
  glPopMatrix ();
 
  glPushMatrix ();
  glColor3f(.6,.6,.6);
- glTranslatef(ejex+2,ejey,ejez+.1);
+ glTranslatef(ejex+2,ejey,ejez+.1 + 12);
  glScalef(0.1,0.1,0.1);
  glutSolidCube(1);
  glPopMatrix ();
 
  glPushMatrix ();
  glColor3f(.6,.6,.6);
- glTranslatef(ejex+2,ejey+.15,ejez+.1);
+ glTranslatef(ejex+2,ejey+.15,ejez+.1 + 12);
  glScalef(0.05,0.05,0.05);
  glutSolidCube(1);
  glPopMatrix ();
@@ -439,7 +441,7 @@ int main(int argc, char** argv)
    angcuad = 0;
    x = 0;
    y = 0;
-   z = -3;
+   z = -3 -12; // Tenia -3
    paso = 0.1;
    dtx = 0;
    dtz = paso;

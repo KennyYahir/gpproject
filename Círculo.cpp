@@ -1,6 +1,6 @@
-#include<GL/glut.h>
-#include<math.h>
-#include<stdlib.h>
+#include <GL/glut.h>
+#include <math.h>
+#include <stdlib.h>
 
 const double TWO_PI = 6.2831853;
 
@@ -85,4 +85,6 @@ int main ( int argc, char ** argv )
 	glutReshapeFunc ( winReshapeFcn );
 
 	glutMainLoop ();
+
+	return 0;
 }
