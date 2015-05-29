@@ -1,3 +1,11 @@
+/*-----------------------------------------
+Graficación por computadora
+Proyecto: Juego de disparo
+Autores: María Ferananda Beltrán Llorente
+//Pongan aqui sus nombres
+Fecha: 28-Mayo-2015
+-----------------------------------------*/
+
 #include <time.h>
 #include <math.h>
 #include <iostream>
@@ -10,6 +18,9 @@
 #define M 7
 #define MODX 17*N
 #define MODY 9*N
+#define ANCHOL 4
+#define LARGOL 6
+
 using namespace std;
 
 int arr_randsx[20], arr_randsy[20], arr_randsz[20];
@@ -35,9 +46,6 @@ const GLfloat high_shininess[]  = {100.0f};
 float a =  4.3, b=2.8;
 float xr[20];
 float yr[20];
-
-#define ANCHOL 4
-#define LARGOL 6
 
 void idleevent()
 {
@@ -365,7 +373,6 @@ void specialkeyevent( int key, int Xx, int Yy )
     case GLUT_KEY_F1:
     
     int a=atina(xx,yy);
-    //printf("%d\n",a);
 
     for(int i=0; i<20; i++)
       if(eliminado[i] == true)
@@ -397,12 +404,8 @@ int main(int argc, char** argv)
   srand(time(NULL));
 
    For(i,0,20)arr_randsx[i] = rand()%MODX , arr_randsy[i] = rand()%(MODY);
-   //printf("%.2f %.2f\n", arr_randsx[i]/(float)N, arr_randsy[i]/(float)N);
-   
-
 
    glutInit( &argc, argv );
-   //srand (time(NULL));
 
    glutInitWindowSize( 1100, 700 );
    glutInitWindowPosition( 100, 100 );
