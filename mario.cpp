@@ -4,9 +4,14 @@
 #include <stdio.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <time.h>
+#define For(x,a,b) for(int x=(a); x<(b); x++)
+#define MOD 14
 
 GLfloat x,y,z, ang, paso, dtx, dtz, incremento,ejex,ejey,ejez;
 GLfloat angcuad;
+
+int arr_randsx[20], arr_randsy[20], arr_randsz[20];
 
 const GLfloat light_ambient[]   = {0.0f, 0.0f, 0.0f, 0.0f};
 const GLfloat light_diffuse[]   = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -326,14 +331,21 @@ void displayevent(void)
         glScalef(5,2,.2);
         glutSolidCube(1);
         glPopMatrix();
+
 //objetivo
-        glColor3f(0,0,0);
-        glPushMatrix();
-        glTranslatef(-1,-1,-.9);
-        glRotated(0,0,0,0);
-        glScalef(.2,.2,.2);
-        glutSolidCube(1);
-        glPopMatrix();
+        int inix = -4, iniy = -1, iniz = -1;
+        
+        For(t,0,20)
+        {
+          glColor3f(0, 0, 0);
+          glColor3f(0.6, 0, 0.6);
+          glPushMatrix();
+          glTranslatef(inix + arr_randsx[t],iniy + arr_randsy[t], iniz);
+          glRotated(0,0,0,0);
+          glScalef(.2,.2,.2);
+          glutSolidCube(1);
+          glPopMatrix();
+        }
 
 //Pistola:
 
@@ -372,18 +384,19 @@ void specialkeyevent( int key, int Xx, int Yy )
 {
  float angrad;
  switch ( key ) {
- case GLUT_KEY_UP:
+ /*case GLUT_KEY_HOME:
       x-=dtx;
       ejex+=dtx;
       z+=dtz;
        ejez-=dtz;      
       break;
- case GLUT_KEY_DOWN:
+ case GLUT_KEY_END:
       x+=dtx;
         ejex-=dtx;
       z-=dtz;
         ejez+=dtz;
       break;
+ */
  case GLUT_KEY_LEFT:
     ang -= 2;
     angrad = dtr(ang);
@@ -400,11 +413,11 @@ void specialkeyevent( int key, int Xx, int Yy )
     dtz = paso * cos(angrad);
      ejez+= paso * sin(angrad);
     break;
- case GLUT_KEY_HOME:
+ case GLUT_KEY_UP:
   y += 0.1;
   ejey-= 0.1;
   break;
- case GLUT_KEY_END:
+ case GLUT_KEY_DOWN:
   y -= 0.1;
   ejey+= 0.1;
   break;
@@ -429,6 +442,10 @@ void reshapeevent(GLsizei width, GLsizei height)
 
 int main(int argc, char** argv)
 {
+  srand(time(NULL));
+
+  For(i,0,20)arr_randsx[i] = rand()%MOD , arr_randsy[i] = rand()%(MOD-6);
+
    glutInit( &argc, argv );
 
    glutInitWindowSize( 1100, 700 );
