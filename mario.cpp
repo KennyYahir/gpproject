@@ -327,13 +327,16 @@ void displayevent(void)
         glutSolidCube(1);
         glPopMatrix();
 //objetivo
-        glColor3f(0,0,0);
+        //For(t,0,20)
+        {
+        glColor3f(1,1,1);
         glPushMatrix();
         glTranslatef(-1,-1,-.9);
         glRotated(0,0,0,0);
         glScalef(.2,.2,.2);
         glutSolidCube(1);
         glPopMatrix();
+       	}
 
 //Pistola:
 
