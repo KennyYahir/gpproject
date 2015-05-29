@@ -1,17 +1,21 @@
-
-#include <GL/glut.h>
+#include <time.h>
 #include <math.h>
+#include <iostream>
 #include <stdio.h>
+#include <GL/glut.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
-#include <time.h>
 #define For(x,a,b) for(int x=(a); x<(b); x++)
 #define MOD 14
-
-GLfloat x,y,z, ang, paso, dtx, dtz, incremento,ejex,ejey,ejez;
-GLfloat angcuad;
+using namespace std;
 
 int arr_randsx[20], arr_randsy[20], arr_randsz[20];
+
+float mat[20][5];
+
+GLfloat x,y,z, paso, dtx, dtz, incremento,ejex,ejey,ejez, xx, yy;
+int ang;
+GLfloat angcuad;
 
 const GLfloat light_ambient[]   = {0.0f, 0.0f, 0.0f, 0.0f};
 const GLfloat light_diffuse[]   = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -23,6 +27,10 @@ const GLfloat mat_diffuse[]     = {0.8f, 0.8f, 0.8f, 1.0f};
 const GLfloat mat_specular[]    = {1.0f, 1.0f, 1.0f, 1.0f};
 const GLfloat high_shininess[]  = {100.0f};
 
+float a =  4.3, b=2.8;
+float xr[20];
+float yr[20];
+
 #define ANCHOL 4
 #define LARGOL 6
 
@@ -32,122 +40,22 @@ void idleevent()
    glutPostRedisplay();
 }
 
-/*void carga()
+void guardaPos(float x, float y, int i)
 {
-  GLuint textura = 0;
-  //SDL_Surface * screen = SDL_SetVideoMode(800, 600, 32, SDL_DOUBLEBUF | SDL_HWSURFACE);
-  SDL_Surface* imagen = IMG_Load("pasto.jpg");
-
-  glGenTextures(1, &textura);                             //crea nombres de texturas, recibe cantidad y recibe el arreglo en el cuál guardará los nombres de las texturas
-  glBindTexture(GL_TEXTURE_2D, textura);                  //une un target con una textura, en este caso el target es GL_TEXTURE_2D y textura la textura que le unirá
-
-  int Mode = GL_RGB;
-
-  if(imagen->format->BytesPerPixel == 4)
-  {
-      Mode = GL_RGBA;
-  }
-
-  glTexImage2D(GL_TEXTURE_2D, 0, Mode, imagen->w, imagen->h, 0, Mode, GL_UNSIGNED_BYTE, imagen->pixels);   //especifica una imagen de textura de 2 dimensiones, recibe el target de la textura, el nivel de detalle en número; 0 es el nivel base, el número de colores que componen a la textura en este caso todos los que existan en RGB,  el ancho de la textura, el alto de la textura, el borde el cuál siempre debe ser 0, el formato del pixel, el tipo de dato del pixel, el puntero hacia la imagen que será utilizada
-
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //establece los parámetross de la textura, el target de la textura, nombre simbólico de un parámetro de un solo valor de la textura, especifica el valor del parámetro anterior
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-
-  glDeleteTextures(1, &textura);
-}*/
-
-/*void carga2()
-{
-  GLuint textura = 0;
-  //SDL_Surface * screen = SDL_SetVideoMode(800, 600, 32, SDL_DOUBLEBUF | SDL_HWSURFACE);
-  SDL_Surface* imagen = IMG_Load("cielo.jpg");
-
-  glGenTextures(1, &textura);                             //crea nombres de texturas, recibe cantidad y recibe el arreglo en el cuál guardará los nombres de las texturas
-  glBindTexture(GL_TEXTURE_2D, textura);                  //une un target con una textura, en este caso el target es GL_TEXTURE_2D y textura la textura que le unirá
-
-  int Mode = GL_RGB;
-
-  if(imagen->format->BytesPerPixel == 4)
-  {
-      Mode = GL_RGBA;
-  }
-
-  glTexImage2D(GL_TEXTURE_2D, 0, Mode, imagen->w, imagen->h, 0, Mode, GL_UNSIGNED_BYTE, imagen->pixels);   //especifica una imagen de textura de 2 dimensiones, recibe el target de la textura, el nivel de detalle en número; 0 es el nivel base, el número de colores que componen a la textura en este caso todos los que existan en RGB,  el ancho de la textura, el alto de la textura, el borde el cuál siempre debe ser 0, el formato del pixel, el tipo de dato del pixel, el puntero hacia la imagen que será utilizada
-
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //establece los parámetross de la textura, el target de la textura, nombre simbólico de un parámetro de un solo valor de la textura, especifica el valor del parámetro anterior
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  mat[i][0] = x-.1;
+  mat[i][1] = x+.1;
+  mat[i][2] = y-.1;
+  mat[i][3] = y+.1;  
 }
-*/
+
 
 void displayevent(void)
 {
- //carga();
  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
  glLoadIdentity();
- glRotatef( ang, 0,1,0 );
- glTranslatef( -ANCHOL/2.0+x, y, z );
+ glRotatef( ang, 0,0,0 );
+ glTranslatef( -2, 0, -15 );
 
- //TEXTURAS
- /*glEnable(GL_TEXTURE_2D);
- glEnable( GL_DEPTH_TEST );
- glBegin(GL_QUADS);
- glTexCoord2f( 0.0f, 5.0f );
- glVertex3f( -20, -1, 20 );
- glTexCoord2f( 7.0f, 5.0f );
- glVertex3f(  20, -1, 20 );
- glTexCoord2f( 7.0f, 0.0f );
- glVertex3f(  20,-0.9, -20 );
- glTexCoord2f( 0.0f, 0.0f );
- glVertex3f( -20,-0.9,-20);
- glEnd();
-
- //carga2();*/
- /*glColor3f(0,1,1);
- glBegin(GL_QUADS);
-      glTexCoord2f( 0.0f, 1.0f );
-      glVertex3f( -20, 11, 20 );
-      glTexCoord2f( 1.0f, 1.0f );
-      glVertex3f(  20, 11, 20 );
-      glTexCoord2f( 1.0f, 0.0f );
-      glVertex3f(  20,11.1, -20 );
-      glTexCoord2f( 0.0f, 0.0f );
-      glVertex3f( -20,11.1,-20);
-    glEnd();
- glColor3f(0,1,1);
- glBegin(GL_QUADS);
-      glTexCoord2f( 0.0f, 1.0f );
-      glVertex3f( -20, -1, 20 );
-      glTexCoord2f( 1.0f, 1.0f );
-      glVertex3f(  -20, 11.1, 20 );
-      glTexCoord2f( 1.0f, 0.0f );
-      glVertex3f(  -20,11.1, -20.2 );
-      glTexCoord2f( 0.0f, 0.0f );
-      glVertex3f( -20,-1,-20.2);
-    glEnd();
- glColor3f(0,1,1);
- glBegin(GL_QUADS);
-      glTexCoord2f( 0.0f, 1.0f );
-      glVertex3f( 20, -1, 20 );
-      glTexCoord2f( 1.0f, 1.0f );
-      glVertex3f(  20, 11.1, 20 );
-      glTexCoord2f( 1.0f, 0.0f );
-      glVertex3f(  20,11.1, -20.2 );
-      glTexCoord2f( 0.0f, 0.0f );
-      glVertex3f( 20,-1,-20.2);
-    glEnd();
- glColor3f(0,1,1);
- glBegin(GL_QUADS);
-      glTexCoord2f( 0.0f, 1.0f );
-      glVertex3f( -20, -1, -20 );
-      glTexCoord2f( 1.0f, 1.0f );
-      glVertex3f(  20, -1, -20 );
-      glTexCoord2f( 1.0f, 0.0f );
-      glVertex3f(  20,11.1, -20);
-      glTexCoord2f( 0.0f, 0.0f );
-      glVertex3f( -20,11.1,-20);
-    glEnd();
-*/
  //LUCES
  glClearColor(1,1,1,1);
  glEnable(GL_CULL_FACE);
@@ -171,8 +79,8 @@ void displayevent(void)
  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
  glMaterialfv(GL_FRONT, GL_POSITION, high_shininess);
 
- //FIN LUCES
-
+ //FIN LUCES        
+                
 //Fondo
         glColor3f(0,1,1);
         glPushMatrix();
@@ -332,47 +240,54 @@ void displayevent(void)
         glutSolidCube(1);
         glPopMatrix();
 
-//objetivo
-
+//objetivos
         int inix = -4, iniy = -1, iniz = -1;
         
         For(t,0,20)
         {
+          if(!mat[t][4])
+            mat[t][4] = iniz;
+          guardaPos(inix + arr_randsx[t],iniy + arr_randsy[t],t);
           glColor3f(0, 0, 0);
           glColor3f(0.6, 0, 0.6);
           glPushMatrix();
-          glTranslatef(inix + arr_randsx[t],iniy + arr_randsy[t], iniz);
+          glTranslatef(inix + arr_randsx[t],iniy + arr_randsy[t], mat[t][4]);          
           glRotated(0,0,0,0);
           glScalef(.2,.2,.2);
           glutSolidCube(1);
           glPopMatrix();
         }
 
-//Pistola:
 
- glPushMatrix ();
- glColor3f(.6,.6,.6);
- glTranslatef(ejex+2,ejey+.1,ejez + 12);
- glScalef(0.1,0.1,0.4);
- glutSolidCube(1);
- glPopMatrix ();
+       //rayo       
+       glPushMatrix ();
+       glColor3f(1,1,0);
+       glTranslatef(2.1,ejey+.1,ejez + 12);
+       glRotatef((GLfloat)ang,0,1,0);
+       glScalef(0.05,0.05,0.4);
+       glutSolidCube(1);
+       glPopMatrix ();
 
- glPushMatrix ();
- glColor3f(.6,.6,.6);
- glTranslatef(ejex+2,ejey,ejez+.1 + 12);
- glScalef(0.1,0.1,0.1);
- glutSolidCube(1);
- glPopMatrix ();
+       glPushMatrix ();
+       glColor3f(1,1,0);
+       glTranslatef(xx,yy,-0.9);       
+       glScalef(0.04,0.04,0.04);
+       glutSolidCube(1);
+       glPopMatrix ();
 
- glPushMatrix ();
- glColor3f(.6,.6,.6);
- glTranslatef(ejex+2,ejey+.15,ejez+.1 + 12);
- glScalef(0.05,0.05,0.05);
- glutSolidSphere(1);
- glPopMatrix ();
+        glutSwapBuffers();
 
-glutSwapBuffers();
+}
 
+int atina(float x, float y)
+{
+  for(int i=0; i<20; i++)
+  {
+    if(mat[i][0] <= x && mat[i][1] >= x)
+      if(mat[i][2] <= y && mat[i][3] >= y)
+        return i;
+  }
+  return -1;  
 }
 
 
@@ -385,43 +300,29 @@ void specialkeyevent( int key, int Xx, int Yy )
 {
  float angrad;
  switch ( key ) {
- /*case GLUT_KEY_HOME:
-      x-=dtx;
-      ejex+=dtx;
-      z+=dtz;
-       ejez-=dtz;      
+   case GLUT_KEY_LEFT:      
+        ang = (ang + 1) % 100;      
+        xx-= 0.1;  
       break;
- case GLUT_KEY_END:
-      x+=dtx;
-        ejex-=dtx;
-      z-=dtz;
-        ejez+=dtz;
+   case GLUT_KEY_RIGHT:
+      ang = (ang - 1) % 100;
+      xx += 0.1;
       break;
- */
- case GLUT_KEY_LEFT:
-    ang -= 2;
-    angrad = dtr(ang);
-    dtx = paso * sin(angrad);
-    ejex-= paso * cos(angrad);
-    dtz = paso * cos(angrad);
-    ejez-= paso * sin(angrad);
+   case GLUT_KEY_UP:
+    y -= 0.01;
+    ejey+= 0.01;
+    yy += 0.055;
     break;
- case GLUT_KEY_RIGHT:
-    ang += 2;
-    angrad = dtr(ang);
-    dtx = paso * sin(angrad);
-     ejex+= paso * cos(angrad);
-    dtz = paso * cos(angrad);
-     ejez+= paso * sin(angrad);
+   case GLUT_KEY_DOWN:
+    y += 0.01;
+    ejey-= 0.01;
+    yy -= 0.055;
     break;
- case GLUT_KEY_UP:
-  y += 0.1;
-  ejey-= 0.1;
-  break;
- case GLUT_KEY_DOWN:
-  y -= 0.1;
-  ejey+= 0.1;
-  break;
+    case GLUT_KEY_F1:
+    int a=atina(xx,yy); 
+    for(int i=0; i<20; i++)
+      mat[a][4]+=1;  
+    break;
  }
 
   glutPostRedisplay();
@@ -443,26 +344,27 @@ void reshapeevent(GLsizei width, GLsizei height)
 
 int main(int argc, char** argv)
 {
-  srand(time(NULL));
+   srand(time(NULL));
 
-  For(i,0,20)arr_randsx[i] = rand()%MOD , arr_randsy[i] = rand()%(MOD-6);
-
+   For(i,0,20)arr_randsx[i] = rand()%MOD , arr_randsy[i] = rand()%(MOD-6);
    glutInit( &argc, argv );
-
+   srand (time(NULL));
    glutInitWindowSize( 1100, 700 );
    glutInitWindowPosition( 100, 100 );
    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
    glutCreateWindow( "" );
-   glutSetWindowTitle(" Mario Bros ");
+   glutSetWindowTitle("Matando Moscas");
 
    ang = 0;
    angcuad = 0;
    x = 0;
    y = 0;
-   z = -3 -12; // Tenia -3
+   z = - 3 - 12;
    paso = 0.1;
    dtx = 0;
    dtz = paso;
+   yy=0;
+   xx=2.5;
 
    glEnable( GL_DEPTH_TEST );
    glutReshapeFunc (reshapeevent);
