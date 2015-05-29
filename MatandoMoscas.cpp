@@ -16,6 +16,8 @@ int arr_randsx[20], arr_randsy[20], arr_randsz[20];
 
 float mat[20][5], obj_width = 0.4;
 
+bool eliminado[20] = {false};
+
 GLfloat x,y,z, paso, dtx, dtz, incremento,ejex,ejey,ejez, xx, yy;
 int ang;
 GLfloat angcuad;
@@ -251,6 +253,7 @@ void displayevent(void)
         {
           if(!mat[t][4])
             mat[t][4] = iniz;
+
           guardaPos(inix + arr_randsx[t]/(float)N,iniy + arr_randsy[t]/(float)N,t);
 
           //glColor3f(0, 0, 0);
@@ -321,9 +324,9 @@ int atina(float x, float y)
   {
     if(mat[i][0] <= x && mat[i][1] >= x)
       if(mat[i][2] <= y && mat[i][3] >= y)
-        return i;
+        eliminado[i] = true; // Si le dio al objeto
   }
-  return -1;  
+  return 0;  
 }
 
 
@@ -336,28 +339,38 @@ void specialkeyevent( int key, int Xx, int Yy )
 {
  float angrad;
  switch ( key ) {
+   
    case GLUT_KEY_LEFT:      
         ang = (ang + 1) % 100;      
         xx-= 0.1;  
       break;
+   
    case GLUT_KEY_RIGHT:
       ang = (ang - 1) % 100;
       xx += 0.1;
       break;
+   
    case GLUT_KEY_UP:
     y -= 0.01;
     ejey+= 0.01;
     yy += 0.055;
     break;
-   case GLUT_KEY_DOWN:
+   
+    case GLUT_KEY_DOWN:
     y += 0.01;
     ejey-= 0.01;
     yy -= 0.055;
     break;
+    
     case GLUT_KEY_F1:
-    int a=atina(xx,yy); 
+    
+    int a=atina(xx,yy);
+    //printf("%d\n",a);
+
     for(int i=0; i<20; i++)
-      mat[a][4]+=1;  
+      if(eliminado[i] == true)
+        mat[i][4] = 20;//Solo lo alejamos de la escena
+
     break;
  }
 
