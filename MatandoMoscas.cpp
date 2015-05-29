@@ -247,7 +247,7 @@ void displayevent(void)
 //objetivos
         int inix = -6, iniy = -3, iniz = -1;
         
-        For(t,0,20)
+        For(t,0,16)
         {
           if(!mat[t][4])
             mat[t][4] = iniz;
@@ -267,13 +267,40 @@ void displayevent(void)
 
 
        //rayo       
-       glPushMatrix();
+       /*glPushMatrix();
        glColor3f(0.5,0.5,0.5);
        glTranslatef(2.1,ejey +.1, ejez + 12);
        glRotatef((GLfloat)ang,0,1,0);
        glScalef(0.05,0.05,0.4);
        glutSolidCube(1);
-       glPopMatrix();
+       glPopMatrix();*/
+
+
+        glPushMatrix ();
+         glColor3f(.6,.6,.6);
+         glTranslatef(ejex+2,ejey+.1,ejez + 12);
+         glRotatef((GLfloat)ang,0,1,0);
+         glScalef(0.1,0.1,0.4);
+         glutSolidCube(1);
+         glPopMatrix ();
+
+         glPushMatrix ();
+         glColor3f(.6,.6,.6);
+         glTranslatef(ejex+2,ejey,ejez+.1 + 12);
+         glRotatef((GLfloat)ang,0,1,0);
+         glScalef(0.1,0.1,0.1);
+         glutSolidCube(1);
+         glPopMatrix ();
+
+         glPushMatrix ();
+         glColor3f(.6,.6,.6);
+         glTranslatef(ejex+2,ejey+.15,ejez+.1 + 12);
+         glRotatef((GLfloat)ang,0,1,0);
+         glScalef(0.05,0.05,0.05);
+         glutSolidCube(1);
+         glPopMatrix ();
+
+
 
        glPushMatrix ();
        //glColor3f(1,1,0);
@@ -356,8 +383,9 @@ int main(int argc, char** argv)
    //srand(2);
   srand(time(NULL));
 
-   For(i,0,20){arr_randsx[i] = rand()%MODX , arr_randsy[i] = rand()%(MODY);
-   printf("%.2f %.2f\n", arr_randsx[i]/(float)N, arr_randsy[i]/(float)N);}
+   For(i,0,20)arr_randsx[i] = rand()%MODX , arr_randsy[i] = rand()%(MODY);
+   //printf("%.2f %.2f\n", arr_randsx[i]/(float)N, arr_randsy[i]/(float)N);
+   
 
 
    glutInit( &argc, argv );

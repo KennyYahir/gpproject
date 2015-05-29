@@ -336,7 +336,7 @@ void displayevent(void)
 
         int inix = -4, iniy = -1, iniz = -1;
         
-        For(t,0,20)
+        For(t,0,17)
         {
           glColor3f(0, 0, 0);
           glColor3f(0.6, 0, 0.6);
